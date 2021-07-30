@@ -1,7 +1,7 @@
-from elegirHorarios.models import Curso, Dia, Horario, Opcion, OpcionDia, OpcionHorario, Profesor, Usuario
+from elegirHorarios.models import Curso, Dia, Horario, Opcion, OpcionDia, OpcionHorario, Profesor, Perfil
 from django.contrib import admin
 
-class UsuarioAdmin(admin.ModelAdmin):
+class PerfilAdmin(admin.ModelAdmin):
     list_display = ('id_usuario', 'nombres', 'apellidos', 'telefono')
 class ProfesorAdmin(admin.ModelAdmin):
     list_display = ('id_profesor', 'nombres', 'apellidos')
@@ -19,7 +19,7 @@ class OpcionHorarioAdmin(admin.ModelAdmin):
     list_display = ('id_opcion', 'id_horario')
 
 # Register your models here.
-admin.site.register(Usuario, UsuarioAdmin)
+admin.site.register(Perfil, PerfilAdmin)
 admin.site.register(Profesor, ProfesorAdmin)    
 admin.site.register(Dia, DiaAdmin)    
 admin.site.register(Curso, CursoAdmin)    

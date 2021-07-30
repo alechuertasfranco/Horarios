@@ -3,6 +3,7 @@ from elegirHorarios.views import agregarcurso, editarcurso, eliminarcurso, lista
 from django.contrib.auth import views
 
 urlpatterns = [
+  # Mantenedor Curso
   path('listarcurso/', listarcurso ,name="listarcurso"),
   path('agregarcurso/', agregarcurso, name="agregarcurso"), 
   path('editarcurso/<int:id>/', editarcurso, name="editarcurso"),

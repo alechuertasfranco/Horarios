@@ -29,7 +29,7 @@ def acceder(request):
 
 @login_required(login_url="/login/")
 def home(request):
-  context={}
+  context={"username": request.user.username}
   return render(request, "home.html", context)
 
 @login_required(login_url="/login/")
