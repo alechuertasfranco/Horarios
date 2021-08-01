@@ -1,0 +1,136 @@
+{% extends 'plantilla.html' %}
+
+{% block title %}{{ curso.descripcion }}{% endblock title %}
+
+{% block content %}
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6 pl-3">
+          <h1> Horarios - {{ curso.descripcion }} </h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href={% url 'home' %}>Home</a></li>
+            <li class="breadcrumb-item active">Horarios</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container">
+      <div class="card card-outline card-info">
+        <div class="card-header row">
+          <div class="col">
+            <h1 class="card-title"> LISTADO DE OPCIONES</h1>
+          </div>
+          <div class="col text-right">
+            <a href="{% url 'agregaropcion' %}" class="btn btn-sm btn-primary btn-add"><i class="fas fa-plus"></i> NUEVO</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 pull-right">
+              <form action="" method="GET">
+                <div class="input-group">
+                  <input type="text" name="buscar" id="buscar" class="form-control" placeholder="Buscar">
+                  <span class="input-group-btn">
+                    <button class="btn btn-primary">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+          <table id="tablaopciones" class="table table-striped mt-4" style="width:100%">
+            <thead class="bg-info text-white">
+              <tr class="text-center">
+                <th>CODIGO</th>
+                <th>PROFESOR</th>
+                <th>HORARIO</th>
+                <th><center>OPCIONES</center></th>
+              </tr>
+            </thead>
+            {% if opcion %}
+              {% for itemopcion in opcion %}
+              <tr class="text-center">
+                <td>{{ itemopcion.descripcion }}</td>
+                <td class="text-left">{{ itemopcion.id_profesor.nombres }} {{ itemopcion.id_profesor }}</td>
+                <td class="text-center">
+                  <a href="{% url 'listaropciondia' itemopcion.id_opcion %}" class="btn btn-success btn-sm open-horario" data-popup-url="{% url 'listaropciondia' itemopcion.id_opcion %}"><i class="fa fa-eye mr-1"></i> Ver Horarios</a>
+                </td>
+                <td class="text-center">
+                  <a href="{% url 'editaropcion' itemopcion.id_opcion %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
+                  <a href="#" onclick="eliminarOpcion('{{itemopcion.id_opcion}}','{{itemopcion.descripcion}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a> 
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <tr style="text-align:center;">
+                <td colspan="3">
+                  <p> No hay registros </p>
+                </td>
+              </tr>
+            {% endif %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="popup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block js %}
+  <script>
+    $(document).on("click", ".open-horario", function (e) {
+      e.preventDefault();
+      var $popup = $("#popup");
+      var popup_url = $(this).data("popup-url");
+      $(".modal-content", $popup).load(popup_url, function () {
+        $popup.modal("show");
+      });
+    });
+  </script>
+
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+      {% for m in messages %}
+        <script>
+          Swal.fire({
+          "title": "Eliminado",
+          "text":"{{m}}",
+          "icon":"success"
+          })
+        </script>
+      {% endfor %}
+    {% endif %}
+  <script>
+    function eliminarOpcion(id,descripcion){
+      Swal.fire({
+        "title": "¿Realmente desea eliminar el registro?",
+        "text": "Codigo: "+ id + " | \n" + descripcion,
+        "icon": "question",
+        "showCancelButton": true,
+        "cancelButtonText": "No",
+        "confirmButtonText": "Si",
+        "reverseButton": true,
+        "confirmButtonColor": "#dc3545"
+      })
+      .then(function(result){
+        if(result.isConfirmed){
+          window.location.href="/eliminarcurso/"+id+"/"
+        }
+      })
+    }
+  </script>
+{% endblock %}

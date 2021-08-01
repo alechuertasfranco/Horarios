@@ -54,14 +54,14 @@ class Opcion(Model):
   def __str__(self): return self.descripcion
   
 class OpcionDia(Model):
-  unique_together = (('id_opcion', 'id_dia'),)
+  id_opcion_dia=models.AutoField(primary_key=True, auto_created = True, serialize = False, verbose_name="id_opcion_dia")
   id_opcion=models.OneToOneField(Opcion, on_delete=models.CASCADE, default=1)
   id_dia=models.OneToOneField(Dia, on_delete=models.CASCADE, default=1)
   hora_inicio=models.TimeField()
   hora_fin=models.TimeField()
   
 class OpcionHorario(Model):
-  unique_together = (('id_opcion', 'id_horario'),)
+  id_opcion_horario=models.AutoField(primary_key=True, auto_created = True, serialize = False, verbose_name="id_opcion_horario")
   id_opcion=models.OneToOneField(Opcion, on_delete=models.CASCADE, default=1)
   id_horario=models.OneToOneField(Horario, on_delete=models.CASCADE, default=1)
   

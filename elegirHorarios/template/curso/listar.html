@@ -23,7 +23,7 @@
   <!-- Main content -->
   <section class="content">
     <div class="container">
-      <div class="card card-outline card-info mt-3">
+      <div class="card card-outline card-info">
         <div class="card-header row">
           <div class="col">
             <h1 class="card-title"> LISTADO DE CURSOS</h1>
@@ -50,18 +50,20 @@
           <table class="table mt-2">
             <table id="tablacursos" class="table table-striped mt-4" style="width:100%">
               <thead class="bg-info text-white">
-                <tr>
-                  <th>CODIGO</th>
+                <tr class="text-center">
                   <th>DESCRIPCION</th>
+                  <th>HORARIOS</th>
                   <th><center>OPCIONES</center></th>
                 </tr>
               </thead>
               {% if curso %}
                 {% for itemcurso in curso %}
                 <tr>
-                  <td>{{ itemcurso.id_curso }}</td>
                   <td>{{ itemcurso.descripcion }}</td>
-                  <td style="text-align:center;">
+                  <td class="text-center">
+                    <a href="{% url 'listaropcion' itemcurso.id_curso %}" class="btn btn-success btn-sm"><i class="fa fa-eye mr-1"></i> Ver Horarios</a>
+                  </td>
+                  <td class="text-center">
                     <a href="{% url 'editarcurso' itemcurso.id_curso %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
                     <a href="#" onclick="eliminarCurso('{{itemcurso.id_curso}}','{{itemcurso.descripcion}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a> 
                   </td>

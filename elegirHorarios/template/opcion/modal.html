@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ opcion.id_curso }} - {{ opcion.id_profesor }}</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table
+    id="tablaopciones_dia"
+    class="table table-striped"
+    style="width: 100%"
+  >
+    <thead class="bg-info text-white">
+      <tr class="text-center">
+        <th>DIA</th>
+        <th>HORARIO</th>
+        <th><center>OPCIONES</center></th>
+      </tr>
+    </thead>
+    {% if opcion_dia %} {% for itemopcion_dia in opcion_dia %}
+    <tr class="text-center">
+      <td>{{ itemopcion_dia.id_dia }}</td>
+      <td>{{ itemopcion_dia.hora_inicio }} - {{ itemopcion_dia.hora_fin }}</td>
+      <td class="text-center">
+        <a class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
+        <a class="btn btn-danger btn-sm"
+          ><i class="fa fa-trash"></i> Eliminar</a
+        >
+      </td>
+    </tr>
+    {% endfor %} {% else %}
+    <tr style="text-align: center">
+      <td colspan="3">
+        <p>No hay registros</p>
+      </td>
+    </tr>
+    {% endif %}
+  </table>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+</div>
