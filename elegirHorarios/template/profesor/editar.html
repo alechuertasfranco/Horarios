@@ -1,0 +1,26 @@
+{% extends "plantilla.html" %}
+{% block content %}
+  <!-- Main content -->
+  <section class="content">
+    {% load crispy_forms_tags %}
+    <div class="container">
+      <div class="card card-info mx-4 my-4">
+        <div class="card-header">
+          <h1 class="card-title">EDITAR PROFESOR</h1>
+        </div>
+        <div class="card-body">
+          <form action="" method="post">
+            {% csrf_token %}
+            {{ form | crispy }}
+
+            <div class="d-flex justify-content-end">
+              <a href="{% url 'listarprofesor' %}" class="btn btn-secondary">Cancelar</a>
+              &nbsp;
+              <button type="submit" class="btn btn-primary">Actualizar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock%}

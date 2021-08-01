@@ -21,8 +21,9 @@ class Profesor(Model):
   id_profesor=models.AutoField(primary_key=True, auto_created = True, serialize = False, verbose_name="id_profesor")
   nombres=models.CharField(max_length=40)
   apellidos=models.CharField(max_length=40)
-  email=models.EmailField(null=True)
+  email=models.EmailField(null=True, blank=True)
   estado=models.BooleanField(default=True)
+  id_usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
   def __str__(self): return self.apellidos
   
 class Dia(Model):

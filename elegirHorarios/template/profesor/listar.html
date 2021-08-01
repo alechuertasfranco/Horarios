@@ -1,6 +1,6 @@
 {% extends 'plantilla.html' %}
 
-{% block title %} Cursos {% endblock title %}
+{% block title %} Profesores {% endblock title %}
 
 {% block content %}
   <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6 pl-3">
-          <h1>Cursos</h1>
+          <h1>Profesores</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href={% url 'home' %}>Home</a></li>
-            <li class="breadcrumb-item active">Cursos</li>
+            <li class="breadcrumb-item active">Profesores</li>
           </ol>
         </div>
       </div>
@@ -26,10 +26,10 @@
       <div class="card card-outline card-info mt-3">
         <div class="card-header row">
           <div class="col">
-            <h1 class="card-title"> LISTADO DE CURSOS</h1>
+            <h1 class="card-title"> LISTADO DE PROFESORES</h1>
           </div>
           <div class="col text-right">
-            <a href="{% url 'agregarcurso' %}" class="btn btn-sm btn-primary btn-add"><i class="fas fa-plus"></i> NUEVO</a>
+            <a href="{% url 'agregarprofesor' %}" class="btn btn-sm btn-primary btn-add"><i class="fas fa-plus"></i> NUEVO</a>
           </div>
         </div>
         <div class="card-body">
@@ -48,28 +48,30 @@
             </div>
           </div>
           <table class="table mt-2">
-            <table id="tablacursos" class="table table-striped mt-4" style="width:100%">
+            <table id="tablaprofesores" class="table table-striped mt-4" style="width:100%">
               <thead class="bg-info text-white">
                 <tr>
-                  <th>CODIGO</th>
-                  <th>DESCRIPCION</th>
+                  <th class="text-center">CODIGO</th>
+                  <th>NOMBRE</th>
+                  <th>EMAIL</th>
                   <th><center>OPCIONES</center></th>
                 </tr>
               </thead>
-              {% if curso %}
-                {% for itemcurso in curso %}
+              {% if profesor %}
+                {% for itemprofesor in profesor %}
                 <tr>
-                  <td>{{ itemcurso.id_curso }}</td>
-                  <td>{{ itemcurso.descripcion }}</td>
+                  <td class="text-center">{{ itemprofesor.id_profesor }}</td>
+                  <td>{{ itemprofesor.nombres }} {{ itemprofesor.apellidos }}</td>
+                  <td>{% if itemprofesor.email %} {{ itemprofesor.email }} {% else %} Sin email {% endif %}</td>
                   <td style="text-align:center;">
-                    <a href="{% url 'editarcurso' itemcurso.id_curso %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
-                    <a href="#" onclick="eliminarCurso('{{itemcurso.id_curso}}','{{itemcurso.descripcion}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a> 
+                    <a href="{% url 'editarprofesor' itemprofesor.id_profesor %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
+                    <a href="#" onclick="eliminarCurso('{{itemprofesor.id_profesor}}','{{itemprofesor.apellidos}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a> 
                   </td>
                 </tr>
                 {% endfor %}
               {% else %}
                 <tr style="text-align:center;">
-                  <td colspan="3">
+                  <td colspan="4">
                     <p> No hay registros </p>
                   </td>
                 </tr>
@@ -95,10 +97,10 @@
       {% endfor %}
     {% endif %}
   <script>
-    function eliminarCurso(id,descripcion){
+    function eliminarCurso(id,apellidos){
       Swal.fire({
         "title": "¿Realmente desea eliminar el registro?",
-        "text": "Codigo: "+ id + " | \n" + descripcion,
+        "text": "Codigo: "+ id + " | \n" + apellidos,
         "icon": "question",
         "showCancelButton": true,
         "cancelButtonText": "No",
@@ -108,7 +110,7 @@
       })
       .then(function(result){
         if(result.isConfirmed){
-          window.location.href="/eliminarcurso/"+id+"/"
+          window.location.href="/eliminarprofesor/"+id+"/"
         }
       })
     }
