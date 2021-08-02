@@ -5,11 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <table
-    id="tablaopciones_dia"
-    class="table table-striped"
-    style="width: 100%"
-  >
+  <table id="tablaopciones_dia" class="table table-striped" style="width: 100%">
     <thead class="bg-info text-white">
       <tr class="text-center">
         <th>DIA</th>
@@ -38,5 +34,12 @@
   </table>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+  <a href="{% url 'agregaropciondia' opcion.id_opcion %}" 
+    class="btn btn-primary open-horario"
+    data-popup-url="{% url 'agregaropciondia' opcion.id_opcion %}">
+    <i class="fas fa-plus mr-1"></i> Nuevo
+  </a>
+  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+    Close
+  </button>
 </div>

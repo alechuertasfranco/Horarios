@@ -123,41 +123,32 @@ def eliminarcurso(request, id):
     curso.save()
     return redirect("listarcurso")
 
+
 # Mantenedor de Opciones
 @login_required(login_url="/login/")
 def listaropcion(request, id):
     curso = Curso.objects.get(id_curso=id)
-    opcion = Opcion.objects.filter(estado=True, id_curso = curso.id_curso)
+    opcion = Opcion.objects.filter(id_curso = curso.id_curso)
     
     context = {'opcion': opcion, 'curso': curso, "username": request.user.username}
     return render(request, "opcion/listar.html", context)
 
-def listaropciondia(request, id):
-    logger.error("Entra a OPCION_DIA")
-    logger.error(request)
-    logger.error(id)
-    opcion = Opcion.objects.get(id_opcion=id)
-    opcion_dia = OpcionDia.objects.filter(id_opcion = opcion.id_opcion)
-    
-    context = {'opcion': opcion, 'opcion_dia': opcion_dia, "username": request.user.username}
-    return render(request, "opcion/modal.html", context)
-
 @login_required(login_url="/login/")
-def agregaropcion(request):
+def agregaropcion(request, id):
     if request.method == "POST":
         
         post = request.POST.copy()
-        post['id_usuario'] = request.user.id
+        post['id_curso'] = id
         request.POST = post
         
         form = OpcionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("listaropcion")
+            return redirect("listaropcion", id)
     else:
         form = OpcionForm()
-        form.fields['id_usuario'].widget = forms.HiddenInput()
-    context = {'form': form, "username": request.user.username}
+        form.fields['id_curso'].widget = forms.HiddenInput()
+    context = {'form_opcion': form, 'curso': id, "username": request.user.username}
     return render(request, "opcion/agregar.html", context)
 
 @login_required(login_url="/login/")
@@ -166,22 +157,77 @@ def editaropcion(request, id):
     if request.method == "POST":
         
         post = request.POST.copy()
-        post['id_usuario'] = request.user.id
+        post['id_curso'] = opcion.id_curso
         request.POST = post
         
         form = OpcionForm(request.POST, instance=opcion)
         if form.is_valid():
             form.save()
-            return redirect("listaropcion")
+            return redirect("listaropcion", id)
     else:
         form = OpcionForm(instance=opcion)
-        form.fields['id_usuario'].widget = forms.HiddenInput()
+        form.fields['id_curso'].widget = forms.HiddenInput()
     context = {"form": form, "username": request.user.username}
     return render(request, "opcion/editar.html", context)
 
 @login_required(login_url="/login/")
 def eliminaropcion(request, id):
     opcion = Opcion.objects.get(id_opcion=id)
-    opcion.estado = False
-    opcion.save()
-    return redirect("listaropcion")
+    id_curso = opcion.id_curso_id
+    opcion.delete()
+    return redirect("listaropcion", id_curso)
+
+
+# Mantenedor de Horarios de Opcion
+@login_required(login_url="/login/")
+def listaropciondia(request, id):
+    opcion = Opcion.objects.get(id_opcion=id)
+    opcion_dia = OpcionDia.objects.filter(id_opcion = opcion.id_opcion)
+    
+    context = {'opcion': opcion, 'opcion_dia': opcion_dia, "username": request.user.username}
+    return render(request, "opcion_dia/listar.html", context)
+
+@login_required(login_url="/login/")
+def agregaropciondia(request, id):
+    opcion = Opcion.objects.get(id_opcion=id)
+    if request.method == "POST":
+        
+        post = request.POST.copy()
+        post['id_opcion'] = id
+        request.POST = post
+        
+        form = OpcionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("listaropciondia", id)
+    else:
+        form = OpcionDiaForm()
+        form.fields['id_opcion'].widget = forms.HiddenInput()
+    context = {'form': form, 'opcion': opcion, "username": request.user.username}
+    return render(request, "opcion_dia/agregar.html", context)
+
+# @login_required(login_url="/login/")
+# def editaropcion(request, id):
+#     opcion = Opcion.objects.get(id_opcion=id)
+#     if request.method == "POST":
+        
+#         post = request.POST.copy()
+#         post['id_curso'] = opcion.id_curso
+#         request.POST = post
+        
+#         form = OpcionForm(request.POST, instance=opcion)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("listaropcion", id)
+#     else:
+#         form = OpcionForm(instance=opcion)
+#         form.fields['id_curso'].widget = forms.HiddenInput()
+#     context = {"form": form, "username": request.user.username}
+#     return render(request, "opcion/editar.html", context)
+
+# @login_required(login_url="/login/")
+# def eliminaropcion(request, id):
+#     opcion = Opcion.objects.get(id_opcion=id)
+#     id_curso = opcion.id_curso_id
+#     opcion.delete()
+#     return redirect("listaropcion", id_curso)

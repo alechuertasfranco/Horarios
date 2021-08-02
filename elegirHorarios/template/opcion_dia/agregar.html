@@ -1,0 +1,23 @@
+<form method="post">
+  {% load crispy_forms_tags %}
+  <div class="modal-header">
+    <h5 class="modal-title">
+      {{ opcion.id_curso }}<br />{{ opcion.id_profesor }}
+    </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    {% csrf_token %} {{ form | crispy}}
+  </div>
+  <div class="modal-footer">
+    <a
+      href="{% url 'listaropciondia' opcion.id_opcion %}"
+      class="btn btn-secondary"
+      >Cancelar</a
+    >
+    &nbsp;
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </div>
+</form>

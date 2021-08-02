@@ -47,8 +47,7 @@ class Horario(Model):
   
 class Opcion(Model):
   id_opcion=models.AutoField(primary_key=True, auto_created = True, serialize = False, verbose_name="id_opcion")
-  descripcion=models.CharField(max_length=1)
-  estado=models.BooleanField(default=True)
+  descripcion=models.CharField(max_length=1, unique=True)
   id_curso = models.ForeignKey(Curso, on_delete=models.CASCADE, default=1)
   id_profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE, default=1)
   def __str__(self): return self.descripcion

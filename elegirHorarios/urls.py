@@ -17,9 +17,14 @@ urlpatterns = [
   path('eliminarcurso/<int:id>/', eliminarcurso, name="eliminarcurso"),
   
   # Mantenedor Opcion
-  path('listaropcion/<int:id>/', listaropcion ,name="listaropcion"),
-  path('listaropciondia/<int:id>/', listaropciondia ,name="listaropciondia"),
-  path('agregaropcion/', agregaropcion, name="agregaropcion"), 
+  path('listaropcion/<int:id>/', listaropcion, name="listaropcion"),
+  path('agregaropcion/<int:id>/', agregaropcion, name="agregaropcion"), 
   path('editaropcion/<int:id>/', editaropcion, name="editaropcion"),
   path('eliminaropcion/<int:id>/', eliminaropcion, name="eliminaropcion"),
+  
+  # Mantenedor Opcion_Dia
+  path('listaropciondia/<int:id>/', listaropciondia, name="listaropciondia"),
+  path('agregaropciondia/<int:id>/', agregaropciondia, name="agregaropciondia"), 
+  # path('editaropciondia/<int:id>/', editaropciondia, name="editaropciondia"),
+  # path('eliminaropciondia/<int:id>/', eliminaropciondia, name="eliminaropciondia"),
 ]
