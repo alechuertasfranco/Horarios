@@ -1,4 +1,3 @@
-<form method="post">
   {% load crispy_forms_tags %}
   <div class="modal-header">
     <h5 class="modal-title">
@@ -8,16 +7,22 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
-    {% csrf_token %} {{ form | crispy}}
-  </div>
-  <div class="modal-footer">
-    <a
-      href="{% url 'listaropciondia' opcion.id_opcion %}"
-      class="btn btn-secondary"
-      >Cancelar</a
-    >
-    &nbsp;
-    <button type="submit" class="btn btn-primary">Guardar</button>
-  </div>
-</form>
+  <form method="post" action="/agregaropciondia/{{opcion.id_opcion}}/">
+    <div class="modal-body">
+      {% csrf_token %} {{ form | crispy}}
+    </div>
+    <div class="modal-footer">
+      <a data-dismiss="modal" aria-label="Close" class="btn btn-secondary">
+        Cancelar
+      </a>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+{% block js %}
+<script>
+  let hora_inicio = document.getElementById("id_hora_inicio")
+  document.getElementById("id_hora_fin").setAttribute("type", "time");
+  hora_inicio.setAttribute("type", "time");
+  console.log(hora_inicio)
+</script>
+{% endblock %}

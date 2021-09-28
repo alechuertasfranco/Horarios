@@ -47,15 +47,15 @@ class Horario(Model):
   
 class Opcion(Model):
   id_opcion=models.AutoField(primary_key=True, auto_created = True, serialize = False, verbose_name="id_opcion")
-  descripcion=models.CharField(max_length=1, unique=True)
+  descripcion=models.CharField(max_length=1)
   id_curso = models.ForeignKey(Curso, on_delete=models.CASCADE, default=1)
   id_profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE, default=1)
   def __str__(self): return self.descripcion
   
 class OpcionDia(Model):
   id_opcion_dia=models.AutoField(primary_key=True, auto_created = True, serialize = False, verbose_name="id_opcion_dia")
-  id_opcion=models.OneToOneField(Opcion, on_delete=models.CASCADE, default=1)
-  id_dia=models.OneToOneField(Dia, on_delete=models.CASCADE, default=1)
+  id_opcion=models.ForeignKey(Opcion, on_delete=models.CASCADE, default=1)
+  id_dia=models.ForeignKey(Dia, on_delete=models.CASCADE, default=1)
   hora_inicio=models.TimeField()
   hora_fin=models.TimeField()
   

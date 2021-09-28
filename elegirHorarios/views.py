@@ -16,7 +16,7 @@ def listarprofesor(request):
     profesor = Profesor.objects.filter(estado=True, id_usuario = usuario.id)
     if queryset:
         profesor = Profesor.objects.filter(
-            Q(descripcion__icontains=queryset), estado=True, id_usuario = usuario.id).distinct()
+            Q(apellidos__icontains=queryset), estado=True, id_usuario = usuario.id).distinct()
     
     context = {'profesor': profesor, "username": usuario.username}
     return render(request, "profesor/listar.html", context)
@@ -134,20 +134,26 @@ def listaropcion(request, id):
     return render(request, "opcion/listar.html", context)
 
 @login_required(login_url="/login/")
-def agregaropcion(request, id):
+def agregaropcion(request, id):    
     if request.method == "POST":
-        
         post = request.POST.copy()
         post['id_curso'] = id
+        
+        try:
+            _descripcion = Opcion.objects.filter(id_curso = id).order_by('-descripcion')[:1].get()
+            _descripcion = ord(_descripcion.descripcion) + 1
+            post['descripcion'] = chr(_descripcion)
+        except:
+            post['descripcion'] = 'a'
+        
         request.POST = post
         
-        form = OpcionForm(request.POST)
+        form = OpcionForm(request.POST, request=request)
         if form.is_valid():
             form.save()
             return redirect("listaropcion", id)
     else:
-        form = OpcionForm()
-        form.fields['id_curso'].widget = forms.HiddenInput()
+        form = OpcionForm(request=request)
     context = {'form_opcion': form, 'curso': id, "username": request.user.username}
     return render(request, "opcion/agregar.html", context)
 
@@ -160,12 +166,12 @@ def editaropcion(request, id):
         post['id_curso'] = opcion.id_curso
         request.POST = post
         
-        form = OpcionForm(request.POST, instance=opcion)
+        form = OpcionForm(request.POST, instance=opcion, request=request)
         if form.is_valid():
             form.save()
             return redirect("listaropcion", id)
     else:
-        form = OpcionForm(instance=opcion)
+        form = OpcionForm(instance=opcion, request=request)
         form.fields['id_curso'].widget = forms.HiddenInput()
     context = {"form": form, "username": request.user.username}
     return render(request, "opcion/editar.html", context)
@@ -196,13 +202,19 @@ def agregaropciondia(request, id):
         post['id_opcion'] = id
         request.POST = post
         
-        form = OpcionForm(request.POST)
+        logger.warning("IS POST")
+        form = OpcionDiaForm(request.POST)
+        logger.warning(form.errors)
         if form.is_valid():
+            logger.warning("IS VALID")
             form.save()
-            return redirect("listaropciondia", id)
+        else:
+            logger.warning("IS NOT VALID")
+            logger.warning(form["id_opcion"])
+        return redirect("listaropcion", opcion.id_curso.id_curso)
     else:
+        logger.warning("IS NOT POST")
         form = OpcionDiaForm()
-        form.fields['id_opcion'].widget = forms.HiddenInput()
     context = {'form': form, 'opcion': opcion, "username": request.user.username}
     return render(request, "opcion_dia/agregar.html", context)
 
