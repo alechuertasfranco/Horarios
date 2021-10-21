@@ -35,6 +35,7 @@ class Dia(Model):
 class Curso(Model):
   id_curso=models.AutoField(primary_key=True, auto_created = True, serialize = False, verbose_name="id_curso")
   descripcion=models.CharField(max_length=100)
+  tipo=models.CharField(max_length=50, default='OBLIGATORIO')
   estado=models.BooleanField(default=True)
   id_usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
   def __str__(self): return self.descripcion

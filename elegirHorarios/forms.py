@@ -4,9 +4,11 @@ from django.forms.widgets import *
 from .models import Curso, Opcion, OpcionDia, Profesor 
 
 class CursoForm(forms.ModelForm):
+  _tipos = (('OBLIGATORIO', 'OBLIGATORIO'),('ELECTIVO', 'ELECTIVO'),('SEMINARIO', 'SEMINARIO'))
+  tipo = forms.ChoiceField(choices=_tipos)
   class Meta:
     model=Curso 
-    fields=['descripcion', 'id_usuario']
+    fields=['descripcion', 'tipo', 'id_usuario']
 
 class ProfesorForm(forms.ModelForm):
   class Meta:

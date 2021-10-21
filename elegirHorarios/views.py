@@ -169,7 +169,7 @@ def editaropcion(request, id):
         form = OpcionForm(request.POST, instance=opcion, request=request)
         if form.is_valid():
             form.save()
-            return redirect("listaropcion", id)
+            return redirect("listaropcion", opcion.id_curso.id_curso)
     else:
         form = OpcionForm(instance=opcion, request=request)
         form.fields['id_curso'].widget = forms.HiddenInput()

@@ -81,6 +81,12 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
+            <a href="{% url 'home' %}" class="nav-link {% block inicio_active %}{% endblock inicio_active %}">
+              <i class="fas fa-home nav-icon"></i>
+              <p>Inicio</p>
+            </a>
+          </li>
+          <li class="nav-item {% block mantenedor_open %}{% endblock mantenedor_open %}">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-layer-group"></i>
               <p>
@@ -90,13 +96,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url 'listarcurso' %}" class="nav-link">
+                <a href="{% url 'listarcurso' %}" class="nav-link {% block curso_active %}{% endblock curso_active %}">
                   <i class="fas fa-book nav-icon"></i>
                   <p>Cursos</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url 'listarprofesor' %}" class="nav-link">
+                <a href="{% url 'listarprofesor' %}" class="nav-link {% block profesor_active %}{% endblock profesor_active %}">
                   <i class="fas fa-chalkboard-teacher nav-icon"></i>
                   <p>Profesores</p>
                 </a>
